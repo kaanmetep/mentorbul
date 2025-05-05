@@ -8,7 +8,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Mentor Bul - Her alanda mentor arayın",
+  title: "MentorBul - Başarıya Giden Yolda Mentorun Yanında",
   description: "Mentor Bul, mentor arama platformudur.",
   icons: {
     icon: "/icon.svg",

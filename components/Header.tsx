@@ -10,10 +10,18 @@ import { useState } from "react";
 
 const navItems = [
   { name: "Ana Sayfa", path: "/" },
+  { name: "Mentorleri Keşfet", path: "/mentorler" },
   { name: "Hizmetlerimiz", path: "/hizmetler" },
-  { name: "Mentorleri Bul", path: "/mentorler" },
-  { name: "İletişim", path: "/iletisim" },
-  { name: "Hakkımızda", path: "/hakkimizda" },
+];
+
+const mentorServices = [
+  { name: "Yazilim Mentorleri" },
+  { name: "YKS Mentorleri" },
+  { name: "Muhendislik Mentorleri" },
+  { name: "IELTS/TOEFL Mentorleri" },
+  { name: "Girisimcilik Mentorleri" },
+  { name: "Yapay Zeka Mentorleri" },
+  { name: "Kariyer Mentorleri" },
 ];
 
 const Header = () => {
@@ -22,62 +30,75 @@ const Header = () => {
 
   return (
     <>
-      <div className="py-3 lg:py-5 xl:py-7 flex justify-between items-center border-b border-gray-200">
-        <Link href="/" aria-label="Ana Sayfa">
-          <div className="flex gap-2 items-center cursor-pointer">
-            <Image
-              src="/images/mentorbullogo.svg"
-              alt="Mentor Bul Logo"
-              width={40}
-              height={40}
-            />
-            <h1 className="text-4xl tracking-tight">
-              <span className="text-blue-600 font-bold pr-[1px]">mentor</span>
-              bul
-            </h1>
-          </div>
-        </Link>
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12">
+        <div className="py-2 lg:py-4 xl:py-5 flex justify-between items-center border-b border-gray-100  ">
+          <Link href="/" aria-label="Ana Sayfa">
+            <div className="flex gap-2 items-center cursor-pointer">
+              <Image
+                src="/images/mentorbullogo.svg"
+                alt="Mentor Bul Logo"
+                width={40}
+                height={40}
+              />
+              <h1 className="text-4xl tracking-tight">
+                <span className="text-blue-600 font-bold pr-[1px]">mentor</span>
+                bul
+              </h1>
+            </div>
+          </Link>
 
-        <nav className="hidden xl:block">
-          <ul className="flex items-center gap-8">
-            {navItems.map((item) => {
-              const isActive = pathname === item.path;
-              return (
-                <li key={item.path}>
-                  <Link
-                    href={item.path}
-                    className={`cursor-pointer font-extrabold hover:text-blue-600 border-b-2 pb-[2px] 
+          <nav className="hidden xl:block">
+            <ul className="flex items-center gap-8">
+              {navItems.map((item) => {
+                const isActive = pathname === item.path;
+                return (
+                  <li key={item.path}>
+                    <Link
+                      href={item.path}
+                      className={`cursor-pointer font-extrabold hover:text-blue-600 border-b-2 pb-[2px] 
                       ${
                         isActive
                           ? "border-blue-600 text-blue-600"
                           : "border-transparent"
                       } 
                       hover:border-blue-600 transition-all delay-[50ms] text-base mt-1`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              );
-            })}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-8">
+            <Link href="/kayit" className="hidden sm:block">
+              <button className="btn-main flex items-center gap-3">
+                <span>Kayıt Ol</span>
+                <UserPlus size={22} />
+              </button>
+            </Link>
+
+            {/* MOBILE NAVIGATION MENU ICON */}
+            <Menu
+              className="cursor-pointer xl:hidden"
+              onClick={() => setIsMenuOpen(true)}
+            />
+          </div>
+        </div>
+        <div className="py-2 lg:py-4 xl:py-5 hidden xl:block">
+          <ul className="flex justify-between">
+            {mentorServices.map((mentorService) => (
+              <li
+                key={mentorService.name}
+                className="cursor-pointer text-gray-800 hover:bg-gray-100 transition-all delay-[50ms] px-4 py-1 rounded-md font-medium"
+              >
+                {mentorService.name}
+              </li>
+            ))}
           </ul>
-        </nav>
-
-        <div className="flex items-center gap-8">
-          <Link href="/kayit" className="hidden sm:block">
-            <button className="btn-main flex items-center gap-3">
-              <span>Kayıt Ol</span>
-              <UserPlus size={22} />
-            </button>
-          </Link>
-
-          {/* MOBILE NAVIGATION MENU ICON */}
-          <Menu
-            className="cursor-pointer xl:hidden"
-            onClick={() => setIsMenuOpen(true)}
-          />
         </div>
       </div>
-
       {/* SLIDE-IN MENU - MOBILE*/}
       <div className={`fixed inset-0 z-50 ${isMenuOpen ? "block" : "hidden"}`}>
         {/* Backdrop */}
@@ -113,6 +134,7 @@ const Header = () => {
                   </li>
                 );
               })}
+
               <li>
                 <button className="btn-main flex items-center mx-auto mt-4 gap-3">
                   <span>Kayıt Ol</span>
