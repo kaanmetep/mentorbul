@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Star } from "lucide-react";
+import { Star, PersonStanding, HeartHandshake, Smile } from "lucide-react";
 
 const words = [
   "Python",
@@ -53,12 +53,12 @@ const persons = [
 
 const MentorCard = ({ image, name, description, star, talents }) => {
   return (
-    <div className="border border-gray-300 w-[380px] pb-10 pt-4 pl-4 rounded-lg bg-white mb-6">
+    <div className="border border-gray-300 w-[370px] md:w-[520px] lg:w-[460px] pb-6 pt-4 pl-4 rounded-lg bg-white shadow-sm cursor-pointer transition-all delay-[50ms]">
       <div className="flex items-center gap-4">
         <img
           src={image}
           alt="Person"
-          className="w-20 h-20 rounded-lg border-2 border-gray-200"
+          className="w-16 h-16 md:w-20 md:h-20 rounded-lg border-2 border-gray-200"
         />
 
         <div className="flex flex-col gap-1">
@@ -72,7 +72,7 @@ const MentorCard = ({ image, name, description, star, talents }) => {
           <p className="text-gray-600">{description}</p>
         </div>
       </div>
-      <ul className="flex gap-3 flex-wrap gap-y-3 mt-5">
+      <ul className="flex gap-3 flex-wrap gap-y-3 mt-5 text-sm">
         {talents.map((talent, index) => (
           <li
             key={index}
@@ -86,22 +86,48 @@ const MentorCard = ({ image, name, description, star, talents }) => {
   );
 };
 
+const MobileSlider = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % persons.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="relative h-[300px] w-full block lg:hidden overflow-hidden">
+      <div className="w-[370px] md:w-[520px] mx-auto relative">
+        {persons.map((person, index) => (
+          <div
+            key={index}
+            className={`absolute top-0 left-0 transition-all duration-700 
+              ${
+                index === currentIndex
+                  ? "opacity-100 translate-x-0 z-10"
+                  : "opacity-0 -translate-x-full z-0"
+              }`}
+          >
+            <MentorCard {...person} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 const MentorSlider = () => {
   // This creates a duplicate array of persons for continuous scrolling effect
   const duplicatedPersons = [...persons, ...persons];
 
   return (
-    <div className="relative h-[500px] overflow-hidden">
-      <div className="animate-slide-up">
+    <div className="relative h-[700px] w-[800px] hidden lg:block lg:w-full overflow-hidden">
+      <div className="animate-slide-up flex flex-col">
         {duplicatedPersons.map((person, index) => (
-          <div key={index} className="my-5">
-            <MentorCard
-              image={person.image}
-              name={person.name}
-              description={person.description}
-              star={person.star}
-              talents={person.talents}
-            />
+          <div key={index} className="my-2">
+            <MentorCard {...person} />
           </div>
         ))}
       </div>
@@ -143,7 +169,7 @@ const HeroSection = () => {
       if (currentWord.length > 0) {
         const timeoutId = setTimeout(() => {
           setCurrentWord(currentWord.substring(0, currentWord.length - 1));
-        }, 100);
+        }, 70);
         return () => clearTimeout(timeoutId);
       } else {
         // Bir sonraki kelimeye geç
@@ -163,15 +189,15 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center gap-10 lg:gap-20 mx-auto px-4 py-16">
+    <div className="flex flex-col lg:flex-row items-center gap-2 lg:gap-16 mx-auto lg:px-4">
       {/*LEFT SECTION*/}
-      <div className="py-8">
+      <div className="py-16">
         <p className="text-gray-700 font-semibold text-xs lg:text-sm">
           Yeni bir beceri öğren, sınavlara daha iyi hazırlan, hayalindeki
           kariyere yerleş.
         </p>
 
-        <div className="flex items-center text-4xl lg:text-7xl mt-4 font-extrabold tracking-tight">
+        <div className="flex items-center text-3xl md:text-5xl lg:text-7xl mt-4 font-extrabold tracking-tight">
           <p>
             1'e 1{" "}
             <span className="font-extrabold text-blue-600">
@@ -179,28 +205,28 @@ const HeroSection = () => {
               <span className="animate-pulse">|</span>
             </span>{" "}
             <br />
-            <span className="mt-1 block">Mentorluk</span>
+            <span className="mt-1 block">Mentorluk Desteği</span>
           </p>
         </div>
-        <form className="mt-8 lg:mt-12 w-fit relative">
+        <form className="mt-6 lg:mt-10 relative max-w-[650px] flex flex-col">
           <input
             type="text"
-            className="border border-gray-300 rounded-lg h-12 lg:h-14 w-full lg:w-[600px] px-4 text-gray-600 outline-none
+            className="border border-gray-300 rounded-lg h-24 pb-12 md:pb-0  md:h-14 w-full px-4 text-gray-600 outline-none
             transition-all duration-200 ease-in-out
             focus:border-blue-500 focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50
-            hover:border-gray-400"
+            hover:border-gray-400 placeholder:text-sm"
             placeholder="Hangi alanda mentorluk arıyorsun?"
             value={searchValue}
             onChange={handleSearchChange}
           />
           <button
             onClick={handleSearchSubmit}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer bg-blue-600 text-white rounded-md px-4 py-2 text-sm"
+            className="md:absolute w-[98%] mx-auto md:w-fit right-2 top-1/2 transform -translate-y-10       md:-translate-y-1/2 cursor-pointer bg-blue-600 text-white rounded-md px-4 py-2 text-sm"
           >
             Mentorleri Bul
           </button>
         </form>
-        <ul className="flex mt-6 flex-wrap gap-y-2 gap-x-3 lg:gap-5 text-sm w-[70%]">
+        <ul className="mt-4 lg:mt-5 flex-wrap gap-y-4 lg:gap-y-3 gap-x-3 lg:gap-5 text-sm lg:w-[70%] hidden md:flex">
           {words.map((word, index) => (
             <li
               key={index}
@@ -210,9 +236,10 @@ const HeroSection = () => {
             </li>
           ))}
         </ul>
-        <div className="w-fit mt-8 lg:mt-16 flex flex-wrap gap-6 lg:gap-16">
+        <div className="w-fit mt-10 lg:mt-12 flex flex-wrap mx-auto lg:mx-0 gap-12 lg:gap-16">
           <p>
-            <span className="block mb-1 text-2xl lg:text-3xl font-bold">
+            <PersonStanding className="mb-1" />
+            <span className="block mb-1 text-xl lg:text-3xl font-bold">
               100+
             </span>{" "}
             <span className="text-gray-700 font-semibold text-sm">
@@ -220,7 +247,8 @@ const HeroSection = () => {
             </span>
           </p>
           <p>
-            <span className="block mb-1 text-2xl lg:text-3xl font-bold">
+            <HeartHandshake className="mb-1" />
+            <span className="block mb-1 text-xl lg:text-3xl font-bold">
               1.000+
             </span>{" "}
             <span className="text-gray-700 font-semibold text-sm">
@@ -228,7 +256,8 @@ const HeroSection = () => {
             </span>
           </p>
           <p>
-            <span className="block mb-1 text-2xl lg:text-3xl font-bold">
+            <Smile className="mb-1" />
+            <span className="block mb-1 text-xl lg:text-3xl font-bold">
               600+
             </span>{" "}
             <span className="text-gray-700 font-semibold text-sm">
@@ -240,6 +269,9 @@ const HeroSection = () => {
 
       {/*RIGHT SECTION - Animated Cards*/}
       <div>
+        <div className="block lg:hidden">
+          <MobileSlider />
+        </div>
         <MentorSlider />
       </div>
     </div>

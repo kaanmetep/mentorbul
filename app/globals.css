@@ -10,6 +10,9 @@ body {
 .btn-main-sm {
   @apply bg-blue-600 text-white font-bold py-2 px-4 rounded-lg  cursor-pointer hover:bg-blue-500 hover:shadow-md transition-all delay-[50ms];
 }
+/* Add these animations to your global.css file */
+
+/* Keep your existing animations */
 @keyframes slideUp {
   0% {
     transform: translateY(0);
@@ -21,4 +24,39 @@ body {
 
 .animate-slide-up {
   animation: slideUp 30s linear infinite;
+}
+
+@keyframes cardSlide {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  10%,
+  90% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.animate-card-slide {
+  animation: cardSlide 3s ease-in-out;
+}
+
+/* Add this new animation for the horizontal slider */
+@keyframes slideLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Move by exactly the width of the original persons array */
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide-left {
+  animation: slideLeft 5s linear infinite;
 }
