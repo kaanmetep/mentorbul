@@ -4,11 +4,11 @@ import { sampleMentors } from "@/constants";
 
 const MentorCard = ({ mentor }) => {
   return (
-    <div className=" py-4 cursor-pointer overflow-hidden">
+    <div className=" py-4  overflow-hidden">
       <img
         src={mentor.image}
         alt={mentor.name}
-        className="w-full  object-cover rounded-lg hover:opacity-80 transition-all duration-300"
+        className="w-full cursor-pointer  object-cover rounded-lg hover:opacity-80 transition-all duration-300"
       />
       <h3 className="text-lg lg:text-xl font-bold mt-2">{mentor.name}</h3>
       <p className="text-sm lg:text-base text-gray-500">{mentor.title}</p>
