@@ -4,8 +4,10 @@ import Banner from "@/components/home/Banner";
 import MentorshipPromoSection from "@/components/home/MentorshipPromoSection";
 import Testimonial from "@/components/home/Testimonial";
 import SearchMentorsSection from "@/components/home/SearchMentorsSection";
-import CTASection from "@/components/home/CTASection";
+
 import FAQSection from "@/components/home/FAQSection";
+import MentorCardsHighlightSection from "@/components/home/MentorCardsHighlightSection";
+import Footer from "@/components/Footer";
 export default function Home() {
   return (
     <>
@@ -31,21 +33,10 @@ export default function Home() {
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 my-20 lg:my-52">
         <SearchMentorsSection />
       </div>
-      <div className="mx-auto max-w-[800px] px-4 sm:px-8 lg:px-10 xl:px-12 my-30 lg:my-52">
-        <Testimonial
-          name="Fatma Karalar"
-          image="https://thispersondoesnotexist.com/"
-          rating={5}
-          comment="MentorBul sayesinde kariyerimde yönümü buldum. Alanında uzman mentorum, sorularımı sabırla yanıtladı ve bana yol gösterdi. Bu platform, gerçekten destek arayan herkes için harika bir kaynak. İyi ki denemişim!"
-          title="UX Designer"
-        />
-      </div>
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 my-20 lg:my-30">
-        <CTASection />
-      </div>
+
       <div className="mx-auto max-w-[800px] px-4 sm:px-8 lg:px-10 xl:px-12 my-30 lg:my-40">
         <Testimonial
-          name="Ayşe Yılmaz"
+          name="Melisa Yücel"
           image="https://thispersondoesnotexist.com/"
           rating={5}
           comment="MentorBul’u keşfettikten sonra yalnız olmadığımı fark ettim. Sorularımı içtenlikle yanıtlayan bir mentorla eşleşmek bana güven verdi. Kısa sürede hem kişisel hem de profesyonel gelişimimde ilerleme kaydettim. Gerçekten değerli bir platform."
@@ -54,6 +45,12 @@ export default function Home() {
       </div>
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 my-20 lg:my-30">
         <FAQSection />
+      </div>
+      <div className="my-20 lg:my-30">
+        <MentorCardsHighlightSection />
+      </div>
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 my-20 lg:my-30">
+        <Footer />
       </div>
     </>
   );

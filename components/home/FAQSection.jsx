@@ -73,12 +73,12 @@ const FAQSection = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex flex-col lg:flex-row gap-10 lg:gap-0">
       <div className="flex-1 mt-4">
         <h3 className="text-2xl lg:text-4xl font-bold">
           Aklında bir soru mu var?
         </h3>
-        <p className="text-gray-600 mt-4 w-[70%]">
+        <p className="text-gray-600 mt-4 lg:w-[70%] w-full">
           Sıkça sorulan soruları burada bulabilirsin. Eğer sorunu burada
           bulamadıysanız, lütfen bize ulaş.
         </p>
@@ -95,7 +95,7 @@ const FAQSection = () => {
             <li key={faq.id} className="flex flex-col">
               <div
                 onClick={() => toggleAnswer(faq.id)}
-                className="text-lg lg:text-xl font-bold cursor-pointer flex items-center justify-between mb-2 hover:text-blue-600 transition-all duration-300 hover:bg-gray-100 p-4 rounded-lg"
+                className="text-base md:text-lg lg:text-xl font-bold cursor-pointer flex items-center justify-between mb-2 hover:text-blue-600 transition-all duration-300 hover:bg-gray-100 p-4 rounded-lg"
               >
                 {faq.question}
                 <ChevronDown
