@@ -22,6 +22,18 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "components/home/Banner.jsx",
+    "components/home/FAQSection.jsx",
+    "components/home/HeroSection.jsx",
+    "components/home/MentorCardsHighlightSection.jsx",
+    "components/home/MentorshipPromoSection.jsx",
+    "components/home/SearchMentorsSection.jsx",
+    "components/home/Testimonial.jsx"
+  ],
   "exclude": ["node_modules"]
 }

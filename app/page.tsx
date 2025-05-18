@@ -1,19 +1,14 @@
-import Header from "@/components/Header";
 import HeroSection from "@/components/home/HeroSection";
 import Banner from "@/components/home/Banner";
 import MentorshipPromoSection from "@/components/home/MentorshipPromoSection";
 import Testimonial from "@/components/home/Testimonial";
 import SearchMentorsSection from "@/components/home/SearchMentorsSection";
-
 import FAQSection from "@/components/home/FAQSection";
 import MentorCardsHighlightSection from "@/components/home/MentorCardsHighlightSection";
-import Footer from "@/components/Footer";
+
 export default function Home() {
   return (
     <>
-      <div className=" border-b border-gray-200 shadow-sm">
-        <Header />
-      </div>
       <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12">
         <HeroSection />
       </div>
@@ -48,9 +43,6 @@ export default function Home() {
       </div>
       <div className="my-20 lg:my-30">
         <MentorCardsHighlightSection />
-      </div>
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 my-20 lg:my-30">
-        <Footer />
       </div>
     </>
   );

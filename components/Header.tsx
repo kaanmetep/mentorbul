@@ -10,7 +10,7 @@ import { useState } from "react";
 
 const navItems = [
   { name: "Ana Sayfa", path: "/" },
-  { name: "Mentorleri Keşfet", path: "/mentorler" },
+  { name: "Mentorleri Keşfet", path: "/mentor/browse" },
   { name: "Hizmetlerimiz", path: "/hizmetler" },
 ];
 
@@ -91,7 +91,7 @@ const Header = () => {
             {mentorServices.map((mentorService) => (
               <li
                 key={mentorService.name}
-                className="cursor-pointer text-gray-800 hover:bg-gray-100 transition-all delay-[50ms] px-4 py-1 rounded-md font-medium"
+                className="cursor-pointer text-gray-800 hover:bg-gray-100 transition-all delay-[50ms] px-4 py-1 rounded-md font-medium text-sm 2xl:text-base"
               >
                 {mentorService.name}
               </li>
