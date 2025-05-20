@@ -1,6 +1,10 @@
 import React from "react";
 import { StarIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toSlug } from "@/lib/utils";
 type Mentor = {
+  id: number;
   name: string;
   title: string;
   company: string;
@@ -14,45 +18,63 @@ type Mentor = {
 
 const mentors = [
   {
+    id: 14421,
     name: "John Doe",
-    title: "Software Engineer",
+    title: "Yazılım Mühendisi",
     company: "Google",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit... Emily is passionate about UI/UX and has 7+ years of experience building accessible web interfaces.",
     image: "https://thispersondoesnotexist.com",
-    skills: ["React", "Node.js", "MongoDB", "Tech Lead", "CTO"],
+    skills: ["Yazılım Geliştirme", "React", "Node.js", "MongoDB", "CTO"],
     price: 100,
     rating: 4.5,
     reviews: 10,
   },
   {
+    id: 22213,
     name: "Emily Carter",
-    title: "Frontend Developer",
-    company: "Spotify",
+    title: "UX Designer",
+    company: "Apple",
     description:
       "Emily is passionate about UI/UX and has 7+ years of experience building accessible web interfaces.",
     image: "https://thispersondoesnotexist.com",
-    skills: ["HTML", "CSS", "JavaScript", "Vue.js", "Accessibility"],
+    skills: [
+      "UX Design",
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "Vue.js",
+      "Accessibility",
+    ],
     price: 80,
     rating: 4.8,
     reviews: 23,
   },
   {
+    id: 35543,
     name: "Michael Zhang",
-    title: "Full Stack Developer",
-    company: "Netflix",
+    title: "Yazılım Mühendisi",
+    company: "Microsoft",
     description:
       "Michael specializes in scalable full-stack solutions and mentoring junior developers.",
     image: "https://thispersondoesnotexist.com",
-    skills: ["React", "Node.js", "PostgreSQL", "Docker", "Kubernetes"],
+    skills: [
+      "Yazılım Geliştirme",
+      "React",
+      "Node.js",
+      "PostgreSQL",
+      "Docker",
+      "Kubernetes",
+    ],
     price: 120,
     rating: 4.7,
     reviews: 15,
   },
   {
+    id: 4234,
     name: "Sara Ahmed",
-    title: "Data Scientist",
-    company: "Meta",
+    title: "Yapay Zeka Mühendisi",
+    company: "Microsoft",
     description:
       "Sara works on cutting-edge ML models and loves sharing her insights on data analysis and model evaluation.",
     image: "https://thispersondoesnotexist.com",
@@ -62,8 +84,9 @@ const mentors = [
     reviews: 19,
   },
   {
+    id: 55555,
     name: "James O'Neill",
-    title: "DevOps Engineer",
+    title: "Mühendis",
     company: "Amazon",
     description:
       "James ensures smooth deployment pipelines and infrastructure automation using the latest tools.",
@@ -74,9 +97,10 @@ const mentors = [
     reviews: 12,
   },
   {
+    id: 65555,
     name: "Chloe Tan",
-    title: "Mobile App Developer",
-    company: "Airbnb",
+    title: "UX Designer",
+    company: "Trendyol",
     description:
       "Chloe crafts beautiful and high-performance mobile apps using React Native and Flutter.",
     image: "https://thispersondoesnotexist.com",
@@ -87,8 +111,8 @@ const mentors = [
   },
   {
     name: "David Kim",
-    title: "Backend Engineer",
-    company: "Stripe",
+    title: "Yazılım Mühendisi",
+    company: "Google",
     description:
       "David builds secure and efficient backend systems with a focus on payment integrations and scalability.",
     image: "https://thispersondoesnotexist.com",
@@ -98,9 +122,10 @@ const mentors = [
     reviews: 18,
   },
   {
+    id: 71234,
     name: "Lina Müller",
-    title: "AI Researcher",
-    company: "OpenAI",
+    title: "Yapay Zeka Mühendisi",
+    company: "Microsoft",
     description:
       "Lina is an AI enthusiast exploring deep learning, transformers, and ethical AI systems.",
     image: "https://thispersondoesnotexist.com",
@@ -110,9 +135,10 @@ const mentors = [
     reviews: 21,
   },
   {
+    id: 82234,
     name: "Carlos Rivera",
-    title: "Cybersecurity Specialist",
-    company: "IBM",
+    title: "Kariyer Mentor",
+    company: "Sahibinden",
     description:
       "Carlos teaches developers how to build secure applications and perform ethical hacking practices.",
     image: "https://thispersondoesnotexist.com",
@@ -128,9 +154,10 @@ const mentors = [
     reviews: 14,
   },
   {
+    id: 9125,
     name: "Aisha Bello",
-    title: "Cloud Architect",
-    company: "Microsoft",
+    title: "Girişimci",
+    company: "Amazon",
     description:
       "Aisha helps teams migrate to cloud-native architectures and optimize for performance and cost.",
     image: "https://thispersondoesnotexist.com",
@@ -146,8 +173,9 @@ const mentors = [
     reviews: 17,
   },
   {
+    id: 10234,
     name: "Tomáš Novák",
-    title: "Game Developer",
+    title: "Öğretmen",
     company: "Epic Games",
     description:
       "Tomáš loves mentoring on game design, Unity/Unreal engine development, and performance optimization.",
@@ -160,10 +188,33 @@ const mentors = [
 ];
 
 const BrowseMentorsSection = () => {
+  const searchParams = useSearchParams();
+  const yetenek = searchParams?.get("yetenek");
+  const unvan = searchParams?.get("unvan");
+  const sirket = searchParams?.get("sirket");
+  const search = searchParams?.get("search");
+  const filteredMentors = mentors.filter((mentor) => {
+    const matchesYetenek =
+      !yetenek ||
+      mentor.skills.some((skill) =>
+        skill.toLowerCase().includes(yetenek.toLowerCase())
+      );
+    const matchesUnvan =
+      !unvan || mentor.title.toLowerCase().includes(unvan.toLowerCase());
+    const matchesSirket =
+      !sirket || mentor.company.toLowerCase().includes(sirket.toLowerCase());
+    const matchesSearch =
+      !search ||
+      mentor.name.toLowerCase().includes(search.toLowerCase()) ||
+      mentor.title.toLowerCase().includes(search.toLowerCase()) ||
+      mentor.company.toLowerCase().includes(search.toLowerCase());
+
+    return matchesYetenek && matchesUnvan && matchesSirket && matchesSearch;
+  });
   return (
     <div className="flex flex-col items-center gap-12 w-full flex-[2.8]">
       <ul className="flex flex-col gap-12">
-        {mentors.map((mentor) => (
+        {filteredMentors.map((mentor) => (
           <li key={mentor.name}>
             <MentorCard mentor={mentor} />
           </li>
@@ -187,15 +238,19 @@ const BrowseMentorsSection = () => {
 };
 
 const MentorCard = ({ mentor }: { mentor: Mentor }) => {
+  const router = useRouter();
   return (
     <div className="w-full flex-[2.8] border border-gray-200 rounded-lg p-8">
-      <div className="flex flex-col sm:flex-row gap-8">
+      <div className="flex flex-col sm:flex-row gap-8 overflow-hidden">
         <img
           src={mentor.image}
           alt={mentor.name}
           width={200}
           height={200}
-          className="rounded-lg object-cover aspect-square "
+          className="rounded-lg object-cover aspect-square hover:scale-105 transition-all duration-300 cursor-pointer hover:opacity-90"
+          onClick={() =>
+            router.push(`/mentor/${toSlug(mentor.name)}-${mentor.id}`)
+          }
         />
         <div className="flex flex-col gap-2">
           <div>
@@ -229,7 +284,14 @@ const MentorCard = ({ mentor }: { mentor: Mentor }) => {
               </span>
               / saat
             </p>
-            <button className="btn-main-sm lg:!px-12 !px-6">Profili Gör</button>
+            <button
+              className="btn-main-sm lg:!px-12 !px-6"
+              onClick={() =>
+                router.push(`/mentor/${toSlug(mentor.name)}-${mentor.id}`)
+              }
+            >
+              Profili Gör
+            </button>
           </div>
         </div>
       </div>

@@ -10,18 +10,30 @@ import { useState } from "react";
 
 const navItems = [
   { name: "Ana Sayfa", path: "/" },
-  { name: "Mentorleri Keşfet", path: "/mentor/browse" },
+  { name: "Mentorleri Keşfet", path: "/mentor/kesfet" },
   { name: "Hizmetlerimiz", path: "/hizmetler" },
 ];
 
 const mentorServices = [
-  { name: "Yazilim Mentorleri" },
-  { name: "YKS Mentorleri" },
-  { name: "Muhendislik Mentorleri" },
-  { name: "IELTS/TOEFL Mentorleri" },
-  { name: "Girisimcilik Mentorleri" },
-  { name: "Yapay Zeka Mentorleri" },
-  { name: "Kariyer Mentorleri" },
+  {
+    name: "Yazilim Mentorleri",
+    path: "/mentor/kesfet?unvan=Yazılım+Mühendisi",
+  },
+  { name: "YKS Mentorleri", path: "/mentor/kesfet?unvan=TYT%2FAYT+Mentor" },
+  { name: "Muhendislik Mentorleri", path: "/mentor/kesfet?unvan=Mühendis" },
+  {
+    name: "IELTS/TOEFL Mentorleri",
+    path: "/mentor/kesfet?unvan=IELTS%2FTOEFL+Mentor",
+  },
+  {
+    name: "Girisimcilik Mentorleri",
+    path: "/mentor/kesfet?unvan=Girişimci",
+  },
+  {
+    name: "Yapay Zeka Mentorleri",
+    path: "/mentor/kesfet?unvan=Yapay+Zeka+Mühendisi",
+  },
+  { name: "Kariyer Mentorleri", path: "/mentor/kesfet?unvan=Kariyer+Mentor" },
 ];
 
 const Header = () => {
@@ -86,18 +98,20 @@ const Header = () => {
             />
           </div>
         </div>
-        <div className="py-2 lg:py-4 xl:py-5 hidden xl:block">
-          <ul className="flex justify-between">
-            {mentorServices.map((mentorService) => (
-              <li
-                key={mentorService.name}
-                className="cursor-pointer text-gray-800 hover:bg-gray-100 transition-all delay-[50ms] px-4 py-1 rounded-md font-medium text-sm 2xl:text-base"
-              >
-                {mentorService.name}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {pathname === "/" && (
+          <div className="py-2 lg:py-4 xl:py-5 hidden xl:block">
+            <ul className="flex justify-between">
+              {mentorServices.map((mentorService) => (
+                <li
+                  key={mentorService.name}
+                  className="cursor-pointer text-gray-800 hover:bg-gray-100 transition-all delay-[50ms] px-4 py-1 rounded-md font-medium text-sm 2xl:text-base"
+                >
+                  <Link href={mentorService.path}>{mentorService.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       {/* SLIDE-IN MENU - MOBILE*/}
       <div className={`fixed inset-0 z-50 ${isMenuOpen ? "block" : "hidden"}`}>

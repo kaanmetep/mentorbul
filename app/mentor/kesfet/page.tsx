@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import BrowseFiltersSection from "@/components/mentor/browse/BrowseFiltersSection";
-import BrowseMentorsSection from "@/components/mentor/browse/BrowseMentorsSection";
+import BrowseFiltersSection from "@/components/mentor/kesfet/BrowseFiltersSection";
+import BrowseMentorsSection from "@/components/mentor/kesfet/BrowseMentorsSection";
+
 const BrowseMentors = () => {
   return (
     <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 py-10">

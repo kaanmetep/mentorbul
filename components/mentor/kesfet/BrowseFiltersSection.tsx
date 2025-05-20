@@ -1,7 +1,25 @@
 "use client";
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+
+type FilterSectionProps = {
+  title: string;
+  items: { name: string; count: number }[];
+  showMore: boolean;
+  setShowMore: (show: boolean) => void;
+  placeholder: string;
+  checkedItems: string[];
+  setCheckedItems: (items: string[]) => void;
+};
+
+type FilterItemProps = {
+  name: string;
+  count: number;
+  isChecked: boolean;
+  onCheck: (checked: boolean) => void;
+};
+
 const skills = [
   { name: "Liderlik", count: 91 },
   { name: "Proje Yönetimi", count: 16 },
@@ -22,6 +40,8 @@ const titles = [
   { name: "IELTS/TOEFL Mentor", count: 126 },
   { name: "UX Designer", count: 126 },
   { name: "Girişimci", count: 126 },
+  { name: "Yapay Zeka Mühendisi", count: 126 },
+  { name: "Kariyer Mentor", count: 126 },
 ];
 
 const companies = [
@@ -42,15 +62,7 @@ const FilterSection = ({
   placeholder,
   checkedItems,
   setCheckedItems,
-}: {
-  title: string;
-  items: { name: string; count: number }[];
-  showMore: boolean;
-  setShowMore: (show: boolean) => void;
-  placeholder: string;
-  checkedItems: string[];
-  setCheckedItems: (items: string[]) => void;
-}) => {
+}: FilterSectionProps) => {
   const sortedItems = [...items].sort((a, b) => {
     const aChecked = checkedItems.includes(a.name);
     const bChecked = checkedItems.includes(b.name);
@@ -100,17 +112,7 @@ const FilterSection = ({
   );
 };
 
-const FilterItem = ({
-  name,
-  count,
-  isChecked,
-  onCheck,
-}: {
-  name: string;
-  count: number;
-  isChecked: boolean;
-  onCheck: (checked: boolean) => void;
-}) => (
+const FilterItem = ({ name, count, isChecked, onCheck }: FilterItemProps) => (
   <div className="flex items-center justify-between gap-2">
     <div className="flex items-center gap-2">
       <input
@@ -126,13 +128,42 @@ const FilterItem = ({
 );
 
 const BrowseFiltersSection = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [showFilters, setShowFilters] = useState(false);
   const [showMoreSkills, setShowMoreSkills] = useState(false);
   const [showMoreTitles, setShowMoreTitles] = useState(false);
   const [showMoreCompanies, setShowMoreCompanies] = useState(false);
-  const [checkedSkills, setCheckedSkills] = useState<string[]>([]);
-  const [checkedTitles, setCheckedTitles] = useState<string[]>([]);
-  const [checkedCompanies, setCheckedCompanies] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("search") || ""
+  );
+  const [checkedSkills, setCheckedSkills] = useState<string[]>(
+    searchParams.get("yetenek")?.split(",") || []
+  );
+  const [checkedTitles, setCheckedTitles] = useState<string[]>(
+    searchParams.get("unvan")?.split(",") || []
+  );
+  const [checkedCompanies, setCheckedCompanies] = useState<string[]>(
+    searchParams.get("sirket")?.split(",") || []
+  );
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
+    const params = new URLSearchParams();
+    if (checkedSkills.length > 0)
+      params.set("yetenek", checkedSkills.join(","));
+    if (checkedTitles.length > 0) params.set("unvan", checkedTitles.join(","));
+    if (checkedCompanies.length > 0)
+      params.set("sirket", checkedCompanies.join(","));
+    if (searchQuery) params.set("search", searchQuery);
+    router.push(`/mentor/kesfet?${params.toString()}`, { scroll: false });
+  }, [checkedSkills, checkedTitles, checkedCompanies, searchQuery]);
+
   return (
     <div className="w-full flex-1">
       <div className="flex flex-col gap-2">
@@ -140,17 +171,18 @@ const BrowseFiltersSection = () => {
           type="text"
           placeholder="Mentorleri Ara (Yetenek, Şirket, Pozisyon)"
           className="w-full p-3 px-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
-
         <p className="text-sm text-gray-500 font-semibold">
           500+ Mentor Bulundu
         </p>
       </div>
       <button
-        className="text-gray-500 font-semibold text-sm mt-3 cursor-pointer hover:text-gray-800 transition-all duration-[75ms] bg-gray-100 p-3 rounded-md flex items-center gap-1 w-full justify-between hover:bg-gray-200"
+        className="text-gray-500 font-semibold text-sm mt-3 cursor-pointer hover:text-gray-800 transition-all duration-[75ms] bg-gray-100 p-3 rounded-md flex items-center gap-1 w-full justify-between hover:bg-gray-200 lg:hidden"
         onClick={() => setShowFilters(!showFilters)}
       >
-        Filtreleri Gör
+        {showFilters ? "Filtreleri Gizle" : "Filtreleri Gör"}
         {showFilters ? (
           <ChevronUp className="text-blue-600" />
         ) : (
