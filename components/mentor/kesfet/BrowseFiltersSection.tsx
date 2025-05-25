@@ -149,6 +149,18 @@ const BrowseFiltersSection = () => {
   const isInitialMount = useRef(true);
 
   useEffect(() => {
+    const search = searchParams.get("search") || "";
+    const yetenek = searchParams.get("yetenek")?.split(",") || [];
+    const unvan = searchParams.get("unvan")?.split(",") || [];
+    const sirket = searchParams.get("sirket")?.split(",") || [];
+
+    setSearchQuery(search);
+    setCheckedSkills(yetenek);
+    setCheckedTitles(unvan);
+    setCheckedCompanies(sirket);
+  }, [searchParams]);
+
+  useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;

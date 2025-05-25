@@ -11,7 +11,7 @@ import { useState } from "react";
 const navItems = [
   { name: "Ana Sayfa", path: "/" },
   { name: "Mentorleri Keşfet", path: "/mentor/kesfet" },
-  { name: "Hizmetlerimiz", path: "/hizmetler" },
+  { name: "Sıkça Sorulan Sorular", path: "/sorular" },
 ];
 
 const mentorServices = [

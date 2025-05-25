@@ -80,7 +80,11 @@ const FAQSection = () => {
         </h3>
         <p className="text-gray-600 mt-4 lg:w-[70%] w-full">
           Sıkça sorulan soruları burada bulabilirsin. Eğer sorunu burada
-          bulamadıysanız, lütfen bize ulaş.
+          bulamadıysan, lütfen{" "}
+          <span className="text-blue-600 cursor-pointer underline">
+            Sıkça Sorulan Sorular Sayfasına
+          </span>{" "}
+          göz at veya bize ulaş.
         </p>
         <div className="flex items-center gap-2 mt-4">
           <Mail className="w-6 h-6 text-blue-600" />
