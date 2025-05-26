@@ -2,69 +2,8 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Mail } from "lucide-react";
-const faqData = [
-  {
-    id: 1,
-    question: "MentorBul nedir?",
-    answer:
-      "MentorBul, mentor ve mentee’leri bir araya getiren ücretsiz bir eşleşme platformudur.",
-  },
-  {
-    id: 2,
-    question: "Mentor olmak için ne yapmalıyım?",
-    answer:
-      "Mentor olmak için kayıt formunu doldurup uzmanlık alanlarınızı belirtmeniz yeterlidir.",
-  },
-  {
-    id: 3,
-    question: "Mentee olarak nasıl destek alabilirim?",
-    answer:
-      "Profil oluşturduktan sonra ilgilendiğiniz alandaki mentorlarla eşleşebilir ve destek talebinde bulunabilirsiniz.",
-  },
-  {
-    id: 4,
-    question: "Mentorluk görüşmeleri nerede gerçekleşiyor?",
-    answer:
-      "Görüşmeler genellikle Zoom, Google Meet veya platform üzerinden planlanan diğer iletişim araçlarıyla gerçekleştirilir.",
-  },
-  {
-    id: 5,
-    question: "MentorBul tamamen ücretsiz mi?",
-    answer:
-      "Evet, MentorBul hem mentorlar hem de menteeler için tamamen ücretsizdir.",
-  },
-  {
-    id: 6,
-    question: "Gönüllü mentorlar kimlerden oluşuyor?",
-    answer:
-      "Mentorlarımız, farklı sektörlerden deneyimli profesyoneller, akademisyenler ve alanında uzman bireylerden oluşur.",
-  },
-  {
-    id: 7,
-    question: "Birden fazla mentorla görüşebilir miyim?",
-    answer:
-      "Evet, farklı alanlarda destek almak üzere birden fazla mentorla eşleşebilirsiniz.",
-  },
-  {
-    id: 8,
-    question: "Mentorlar menteelere nasıl yardımcı olur?",
-    answer:
-      "Mentorlar, kariyer planlama, teknik bilgi paylaşımı, kişisel gelişim gibi konularda menteelere rehberlik eder.",
-  },
-  {
-    id: 9,
-    question: "Platformda ne kadar sürede eşleşme gerçekleşir?",
-    answer:
-      "Eşleşme süresi, tercih ettiğiniz alan ve mentor yoğunluğuna bağlı olarak birkaç gün sürebilir.",
-  },
-  {
-    id: 10,
-    question: "Görüşmeler gizli midir?",
-    answer:
-      "Evet, tüm görüşmeler gizlilik esasına göre gerçekleşir ve kişisel bilgiler korunur.",
-  },
-];
-
+import { faqData } from "@/constants";
+import Link from "next/link";
 const FAQSection = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -81,9 +20,12 @@ const FAQSection = () => {
         <p className="text-gray-600 mt-4 lg:w-[70%] w-full">
           Sıkça sorulan soruları burada bulabilirsin. Eğer sorunu burada
           bulamadıysan, lütfen{" "}
-          <span className="text-blue-600 cursor-pointer underline">
+          <Link
+            href="/sorular"
+            className="text-blue-600 cursor-pointer underline"
+          >
             Sıkça Sorulan Sorular Sayfasına
-          </span>{" "}
+          </Link>{" "}
           göz at veya bize ulaş.
         </p>
         <div className="flex items-center gap-2 mt-4">
