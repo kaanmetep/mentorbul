@@ -84,9 +84,9 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center gap-8">
-            <Link href="/kayit" className="hidden sm:block">
+            <Link href="/giris" className="hidden sm:block">
               <button className="btn-main flex items-center gap-3">
-                <span>Kayıt Ol</span>
+                <span>Giriş Yap</span>
                 <UserPlus size={22} />
               </button>
             </Link>
@@ -150,10 +150,13 @@ const Header = () => {
               })}
 
               <li>
-                <button className="btn-main flex items-center mx-auto mt-4 gap-3">
-                  <span>Kayıt Ol</span>
+                <Link
+                  href="/giris"
+                  className="btn-main flex items-center mx-auto mt-4 gap-3 w-fit"
+                >
+                  <span>Giriş Yap</span>
                   <UserPlus size={22} />
-                </button>
+                </Link>
               </li>
             </ul>
           </nav>
