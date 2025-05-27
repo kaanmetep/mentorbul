@@ -8,7 +8,7 @@ const KayitPage = () => {
 
   return (
     <div className="bg-gray-50 flex min-h-screen">
-      <div className="md:flex flex-col h-screen w-[30%] bg-gray-50 shadow-sm hidden">
+      <div className="md:flex flex-col h-screen w-[40%] bg-gray-50 shadow-sm hidden">
         <img
           src="/images/mentorbullogo.svg"
           alt="Mentorbul Logo"
@@ -127,7 +127,7 @@ const KayitPage = () => {
                 </Link>
                 <span className="mx-2">veya</span>
                 <Link
-                  href="/apply-mentor"
+                  href="/mentor/basvur"
                   className="text-blue-500 hover:text-blue-600 font-medium underline"
                 >
                   Mentor olmak için başvur
