@@ -19,6 +19,14 @@ export type Mentor = {
   reviews: Review[];
 };
 
+export type EducationInfo = {
+  schoolName: string;
+  startDate: string;
+  endDate: string;
+  degreeType: string;
+  major: string;
+};
+
 export const faqData = [
   {
     id: 1,

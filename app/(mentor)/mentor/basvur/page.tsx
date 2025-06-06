@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Hakkinda from "@/components/mentor/basvur/Hakkinda";
 import Profil from "@/components/mentor/basvur/Profil";
+import Diger from "@/components/mentor/basvur/Diger";
 import { Info, Check } from "lucide-react";
 import Link from "next/link";
 const steps = [
@@ -15,11 +16,18 @@ const steps = [
   },
   {
     id: 3,
-    name: "Deneyimler",
+    name: "Diğer",
   },
 ];
 const MentorBasvurPage = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const handleActiveStep = (step: number) => {
+    setActiveStep(step);
+    if (window.scrollY > 650) {
+      window.scrollTo({ top: 300, behavior: "smooth" });
+    }
+    setActiveStep(step);
+  };
   return (
     <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 py-10 ">
       <div className="flex flex-col items-center justify-center  w-full">
@@ -76,8 +84,9 @@ const MentorBasvurPage = () => {
         </div>
 
         <div className="my-8 w-[90%] md:w-[75%] lg:w-[65%] xl:w-[60%] mx-auto">
-          {activeStep === 1 && <Hakkinda setActiveStep={setActiveStep} />}
-          {activeStep === 2 && <Profil setActiveStep={setActiveStep} />}
+          {activeStep === 1 && <Hakkinda handleActiveStep={handleActiveStep} />}
+          {activeStep === 2 && <Profil handleActiveStep={handleActiveStep} />}
+          {activeStep === 3 && <Diger handleActiveStep={handleActiveStep} />}
         </div>
       </div>
     </div>

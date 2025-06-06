@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 const Profil = ({
-  setActiveStep,
+  handleActiveStep,
 }: {
-  setActiveStep: (step: number) => void;
+  handleActiveStep: (step: number) => void;
 }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   return (
@@ -92,14 +92,14 @@ const Profil = ({
           <button
             className="btn-main-sm "
             type="button"
-            onClick={() => setActiveStep(1)}
+            onClick={() => handleActiveStep(1)}
           >
             Geri Dön
           </button>
           <button
             className="btn-main-sm "
             type="button"
-            onClick={() => setActiveStep(3)}
+            onClick={() => handleActiveStep(3)}
           >
             Devam Et
           </button>
