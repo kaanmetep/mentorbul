@@ -7,6 +7,7 @@ export type Review = {
 };
 
 export type Mentor = {
+  // bu alan sonradan page.tsx'teki MentorFormData ile degistirilecek.
   id: number;
   name: string;
   title: string;

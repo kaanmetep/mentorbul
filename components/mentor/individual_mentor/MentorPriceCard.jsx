@@ -41,7 +41,7 @@ const MentorPriceCard = ({ mentor }) => {
             <li className="flex items-center gap-2">
               <Clock className="w-6 h-6 text-blue-500 shrink-0" />
               <span className="text-gray-600 font-bold ">
-                Satın aldıktan{" "}
+                Görüşme Planladıktan{" "}
                 <span className="underline">24 saat veya daha az</span> zaman
                 içerisinde geri dönüş yapıyor.
               </span>

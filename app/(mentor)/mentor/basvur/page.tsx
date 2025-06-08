@@ -5,6 +5,7 @@ import Profil from "@/components/mentor/basvur/Profil";
 import Diger from "@/components/mentor/basvur/Diger";
 import { Info, Check } from "lucide-react";
 import Link from "next/link";
+
 const steps = [
   {
     id: 1,
@@ -19,10 +20,48 @@ const steps = [
     name: "Diğer",
   },
 ];
+export type MentorFormData = {
+  // bunu types klasoruna aktaricaz sonra da constanstaki MentorFormData ile degistirecez.
+  image: File | null;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  occupation: string;
+  currentCompany: string;
+  exCompanies: string;
+  ornek: string;
+};
 const MentorBasvurPage = () => {
   const [activeStep, setActiveStep] = useState(1);
+  const [mentorFormData, setMentorFormData] = useState<MentorFormData>({
+    image: null,
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
+    occupation: "",
+    currentCompany: "",
+    exCompanies: "",
+    ornek: "",
+  });
+
+  const handleMentorFormDataChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value, type, files } = event.target;
+
+    const newValue = type === "file" ? files?.[0] || null : value;
+
+    setMentorFormData((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
+  };
+
   const handleActiveStep = (step: number) => {
-    setActiveStep(step);
     if (window.scrollY > 650) {
       window.scrollTo({ top: 300, behavior: "smooth" });
     }
@@ -58,23 +97,23 @@ const MentorBasvurPage = () => {
               </li>
             ))}
           </ul>
-          <hr className="w-[88%] border-t-2  border-gray-200 absolute top-5 -z-10 left-1/2 -translate-x-1/2 lg:block hidden " />
+          <hr className=" md:w-[60%] xl:w-[88%] lg:w-[80%] border-t-2  border-gray-200 absolute top-5 -z-10 left-1/2 -translate-x-1/2  " />
           <div className="max-w-[600px] my-8 mb-2 bg-blue-50 rounded-lg p-4 mx-auto">
             <div className="flex items-center gap-2 my-3">
               <Info className="w-5 h-5 text-blue-600" />
               <h3 className="font-semibold">
-                Seni aramizda mentor olarak gormekten cok mutluyuz!
+                Seni aramızda mentor olarak görmekten çok mutluyuz!
               </h3>
             </div>
             <p className="w-fit">
-              Kayit toplamda 3 asamadan olusacak ve yaklasik 7 dakikani alacak.
-              Eger kafana takilan bir soru var ise{" "}
+              Kayıt toplamda 3 aşamadan oluşacak ve yaklaşık 7 dakikanı alacak.
+              Eğer kafana takılan bir soru varsa{" "}
               <span className="text-blue-600 underline">
                 <Link href="/sorular" target="_blank" rel="noopener noreferrer">
-                  Sikca Sorulan Sorular Sayfasi
+                  Sıkça Sorulan Sorular Sayfası
                 </Link>
               </span>
-              &apos;na goz atabilir veya{" "}
+              &apos;na göz atabilir veya{" "}
               <span className="font-semibold">
                 <a href="mailto:info@mentor.com">help@mentor.com</a>
               </span>{" "}
@@ -84,7 +123,13 @@ const MentorBasvurPage = () => {
         </div>
 
         <div className="my-8 w-[90%] md:w-[75%] lg:w-[65%] xl:w-[60%] mx-auto">
-          {activeStep === 1 && <Hakkinda handleActiveStep={handleActiveStep} />}
+          {activeStep === 1 && (
+            <Hakkinda
+              mentorFormData={mentorFormData}
+              handleMentorFormDataChange={handleMentorFormDataChange}
+              handleActiveStep={handleActiveStep}
+            />
+          )}
           {activeStep === 2 && <Profil handleActiveStep={handleActiveStep} />}
           {activeStep === 3 && <Diger handleActiveStep={handleActiveStep} />}
         </div>

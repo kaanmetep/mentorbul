@@ -14,8 +14,9 @@ const Diger = ({
           </p>
           <textarea className="w-full p-2  rounded-lg border-2 border-gray-300 min-h-[150px]" />
           <p className="mt-1 text-sm text-gray-500">
-            Daha önce başarılı olduğun bir proje, yayınladığın bir blog, içerik
-            ürettiğin bir sosyal medya plaftormu, ...
+            Daha önce geliştirdiğin bir proje, yayınladığın bir blog, içerik
+            ürettiğin bir sosyal medya plaftormu, başarılı olup bahsetmek
+            istediğin herhangi bir şey ...
           </p>
         </div>
         <div className=" gap-4 col-span-2">

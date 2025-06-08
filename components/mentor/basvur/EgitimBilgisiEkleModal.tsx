@@ -28,7 +28,7 @@ const EgitimBilgisiEkleModal = ({
           className="w-7 h-7 cursor-pointer absolute top-2 right-2 hover:bg-gray-100 rounded-full p-1 transition-all duration-200"
           onClick={() => setShowEgitimBilgisiEkleModal(false)}
         />
-        <div className="flex flex-col gap-4 mt-2 ">
+        <form className="flex flex-col gap-4 mt-2 ">
           <div>
             <label className="block text-gray-700 font-medium mb-1">
               Okul İsmi *
@@ -74,7 +74,7 @@ const EgitimBilgisiEkleModal = ({
               <input
                 type="number"
                 className="p-2 border border-gray-300 rounded-md w-full"
-                placeholder="Başlangıç Yılı"
+                placeholder="Bitiş Yılı"
                 value={educationInfo.endDate}
                 onChange={handleEducationInfoChange}
                 name="endDate"
@@ -106,7 +106,7 @@ const EgitimBilgisiEkleModal = ({
           >
             Ekle
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
