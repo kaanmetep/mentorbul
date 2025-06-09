@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Upload, Plus, X } from "lucide-react";
 import EgitimBilgisiEkleModal from "./EgitimBilgisiEkleModal";
 import { EducationInfo } from "@/constants";
 import { mentorSchemaAbout } from "@/lib/zodSchema";
+import { mentorSchemaEducationInfo } from "@/lib/zodSchema";
 import { MentorFormData } from "@/app/(mentor)/mentor/basvur/page";
-
+import FormError from "@/components/mentor/basvur/FormError";
 type HakkindaProps = {
   handleActiveStep: (step: number) => void;
   mentorFormData: Pick<
@@ -18,9 +19,14 @@ type HakkindaProps = {
     | "occupation"
     | "currentCompany"
     | "exCompanies"
+    | "educationInfos"
   >;
   handleMentorFormDataChange: (
     event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
+  updateMentorFormField: (
+    fieldName: keyof MentorFormData,
+    value: string | File | null | string[] | EducationInfo[]
   ) => void;
 };
 
@@ -28,13 +34,12 @@ const Hakkinda = ({
   handleActiveStep,
   mentorFormData,
   handleMentorFormDataChange,
+  updateMentorFormField,
 }: HakkindaProps) => {
   const [showEgitimBilgisiEkleModal, setShowEgitimBilgisiEkleModal] =
     useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
   const [educationInfo, setEducationInfo] = useState<EducationInfo>({
     schoolName: "",
     startDate: "",
@@ -42,32 +47,18 @@ const Hakkinda = ({
     degreeType: "",
     major: "",
   });
-  const [educationInfos, setEducationInfos] = useState<EducationInfo[]>([]);
-  const handleEducationInfoChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setEducationInfo((prev) => ({ ...prev, [name]: value }));
-  };
-  const handleAddNewEducationInfo = () => {
-    setEducationInfos((prev) => [...prev, educationInfo]);
-    setShowEgitimBilgisiEkleModal(false);
-    setEducationInfo({
-      schoolName: "",
-      startDate: "",
-      endDate: "",
-      degreeType: "",
-      major: "",
-    });
-  };
-  const handleDeleteEducationInfo = (index: number) => {
-    setEducationInfos((prev) => prev.filter((_, i) => i !== index));
-  };
+  const [exCompany, setExCompany] = useState<string>("");
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       mentorSchemaAbout.parse(mentorFormData);
       setErrors({});
+      if (exCompany.length > 0) {
+        updateMentorFormField("exCompanies", [
+          ...mentorFormData.exCompanies,
+          exCompany.trim(),
+        ]);
+      }
       handleActiveStep(2);
     } catch (error) {
       const formattedErrors: Record<string, string> = {};
@@ -77,10 +68,47 @@ const Hakkinda = ({
         }
       );
       setErrors(formattedErrors);
+      window.scrollTo({ top: 450, behavior: "smooth" });
       console.log(formattedErrors);
     }
   };
-
+  const handleAddNewEducationInfo = () => {
+    try {
+      mentorSchemaEducationInfo.parse(educationInfo);
+      updateMentorFormField("educationInfos", [
+        ...mentorFormData.educationInfos,
+        educationInfo,
+      ]);
+      setShowEgitimBilgisiEkleModal(false);
+      setEducationInfo({
+        schoolName: "",
+        startDate: "",
+        endDate: "",
+        degreeType: "",
+        major: "",
+      });
+    } catch (error) {
+      const formattedErrors: Record<string, string> = {};
+      error.issues.forEach(
+        (err: { path: (string | number)[]; message: string }) => {
+          formattedErrors[String(err.path[0])] = err.message;
+        }
+      );
+      setErrors(formattedErrors);
+    }
+  };
+  const handleEducationInfoChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setEducationInfo((prev) => ({ ...prev, [name]: value }));
+  };
+  const handleDeleteEducationInfo = (index: number) => {
+    updateMentorFormField(
+      "educationInfos",
+      mentorFormData.educationInfos?.filter((_, i) => i !== index)
+    );
+  };
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -88,6 +116,37 @@ const Hakkinda = ({
       handleMentorFormDataChange(e);
     }
   };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if ((e.key === "Enter" || e.key === ",") && exCompany.trim()) {
+      if (mentorFormData.exCompanies?.length > 10) return;
+      e.preventDefault();
+      updateMentorFormField("exCompanies", [
+        ...mentorFormData.exCompanies,
+        exCompany.trim(),
+      ]);
+      setExCompany("");
+    }
+    if (e.key === "Backspace") {
+      if (exCompany.length === 0) {
+        updateMentorFormField(
+          "exCompanies",
+          mentorFormData.exCompanies?.slice(0, -1)
+        );
+      }
+    }
+  };
+  const handleExCompanyDelete = (index: number) => {
+    updateMentorFormField(
+      "exCompanies",
+      mentorFormData.exCompanies?.filter((_, i) => i !== index)
+    );
+  };
+
+  useEffect(() => {
+    if (mentorFormData.image) {
+      setPreviewUrl(URL.createObjectURL(mentorFormData.image));
+    }
+  }, [mentorFormData.image]);
 
   return (
     <>
@@ -115,11 +174,7 @@ const Hakkinda = ({
               <Upload className="w-4 h-4" />
               Dosya Seç
             </label>
-            {errors.image && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.image}
-              </span>
-            )}
+            {errors.image && <FormError>{errors.image}</FormError>}
           </div>
         </div>
         <div className="my-8 grid grid-cols-2 gap-8">
@@ -131,12 +186,9 @@ const Hakkinda = ({
               name="firstName"
               value={mentorFormData.firstName}
               onChange={handleMentorFormDataChange}
+              required
             />
-            {errors.firstName && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.firstName}
-              </span>
-            )}
+            {errors.firstName && <FormError>{errors.firstName}</FormError>}
           </div>
           <div className=" gap-4 col-span-2 sm:col-span-1">
             <p className="text-gray-600 font-bold mb-2">Soyadınız *</p>
@@ -146,12 +198,9 @@ const Hakkinda = ({
               name="lastName"
               value={mentorFormData.lastName}
               onChange={handleMentorFormDataChange}
+              required
             />
-            {errors.lastName && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.lastName}
-              </span>
-            )}
+            {errors.lastName && <FormError>{errors.lastName}</FormError>}
           </div>
           <div className=" gap-4 col-span-2 sm:col-span-1">
             <p className="text-gray-600 font-bold mb-2">Email Adresiniz *</p>
@@ -162,12 +211,9 @@ const Hakkinda = ({
               placeholder="ornek@email.com"
               value={mentorFormData.email}
               onChange={handleMentorFormDataChange}
+              required
             />
-            {errors.email && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.email}
-              </span>
-            )}
+            {errors.email && <FormError>{errors.email}</FormError>}
           </div>
           <div className=" gap-4 col-span-2 sm:col-span-1">
             <p className="text-gray-600 font-bold mb-2">Şifrenizi Giriniz *</p>
@@ -177,12 +223,9 @@ const Hakkinda = ({
               name="password"
               value={mentorFormData.password}
               onChange={handleMentorFormDataChange}
+              required
             />
-            {errors.password && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.password}
-              </span>
-            )}
+            {errors.password && <FormError>{errors.password}</FormError>}
           </div>
           <div className=" gap-4 col-span-2 sm:col-span-1">
             <p className="text-gray-600 font-bold mb-2">
@@ -194,11 +237,10 @@ const Hakkinda = ({
               name="passwordConfirmation"
               value={mentorFormData.passwordConfirmation}
               onChange={handleMentorFormDataChange}
+              required
             />
             {errors.passwordConfirmation && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.passwordConfirmation}
-              </span>
+              <FormError>{errors.passwordConfirmation}</FormError>
             )}
           </div>
 
@@ -210,12 +252,9 @@ const Hakkinda = ({
               name="occupation"
               value={mentorFormData.occupation}
               onChange={handleMentorFormDataChange}
+              required
             />
-            {errors.occupation && (
-              <span className="text-sm font-semibold text-red-500">
-                {errors.occupation}
-              </span>
-            )}
+            {errors.occupation && <FormError>{errors.occupation}</FormError>}
             <span className="text-gray-600 text-sm">
               DevOps Mühendisi, Girişimci, Öğrenci, ...
             </span>
@@ -236,15 +275,40 @@ const Hakkinda = ({
             <p className="text-gray-600 font-bold mb-2">
               Daha önce çalıştığınız şirket(ler) (Opsiyonel)
             </p>
-            <input
-              type="text"
-              className="w-full p-4 rounded-lg border-2 border-gray-300"
-              name="exCompanies"
-              value={mentorFormData.exCompanies}
-              onChange={handleMentorFormDataChange}
-            />
+            <div className="flex flex-wrap items-center gap-2 p-2 rounded-lg border-2 border-gray-300">
+              {mentorFormData.exCompanies?.map((exCompany, i) => (
+                <span
+                  key={i}
+                  className="bg-gray-100 px-5 py-2 rounded-lg text-gray-700 text-sm relative font-semibold"
+                >
+                  {exCompany}
+                  <X
+                    className="absolute right-[3] top-[3] w-[10px] h-[10px] cursor-pointer hover:text-gray-600 text-gray-800 delay-[50ms] transition-all"
+                    onClick={() => handleExCompanyDelete(i)}
+                  />
+                </span>
+              ))}
+              <input
+                type="text"
+                value={exCompany}
+                onChange={(e) =>
+                  mentorFormData.exCompanies?.length < 10
+                    ? setExCompany(e.target.value)
+                    : ""
+                }
+                onKeyDown={handleKeyDown}
+                className={`flex-1 min-w-[120px] p-3 outline-none`}
+                placeholder={
+                  mentorFormData.exCompanies?.length === 0
+                    ? "Yeni bir şirket ekleyin..."
+                    : ""
+                }
+              />
+            </div>
             <span className="text-gray-600 text-sm">
-              Lütfen virgülle ayırarak ekleyiniz.
+              Lütfen virgülle ayırarak veya her yazdığınız işten sonra
+              &quot;Enter&quot; tuşuna basarak işlerinizi kaydediniz. (En fazla
+              10 tane)
             </span>
           </div>
           <div
@@ -258,7 +322,7 @@ const Hakkinda = ({
           </div>
         </div>
         <ul className="p-4 flex flex-col gap-6 mb-6">
-          {educationInfos.map((educationInfo, i) => (
+          {mentorFormData.educationInfos?.map((educationInfo, i) => (
             <li
               key={i}
               className=" p-6 rounded-lg shadow-sm border border-gray-100 relative"
@@ -279,7 +343,7 @@ const Hakkinda = ({
                 <X
                   width={28}
                   height={28}
-                  className="w-7 h-7 cursor-pointer hover:bg-gray-100 rounded-full p-1 transition-all duration-200 hover:text-red-500"
+                  className="w-7 h-7 cursor-pointer hover:bg-gray-100 rounded-full p-1 transition-all duration-200"
                   onClick={() => handleDeleteEducationInfo(i)}
                 />
               </div>
@@ -296,6 +360,7 @@ const Hakkinda = ({
           handleEducationInfoChange={handleEducationInfoChange}
           educationInfo={educationInfo}
           handleAddNewEducationInfo={handleAddNewEducationInfo}
+          errors={errors}
         />
       )}
     </>

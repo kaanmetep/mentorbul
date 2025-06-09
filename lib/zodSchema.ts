@@ -15,7 +15,7 @@ export const mentorSchema = z.object({
 export const mentorSchemaAbout = z
   .object({
     image: z
-      .instanceof(File)
+      .instanceof(File, { message: "Lütfen bir profil fotoğrafı seçiniz." })
       .refine((file) => file.size > 0, {
         error: "Lütfen bir dosya seçin.",
       })
@@ -35,20 +35,45 @@ export const mentorSchemaAbout = z
       .regex(/[a-zA-Z]/, { error: "Şifre en az bir harf içermeli." }),
     passwordConfirmation: z.string(),
     occupation: z.string(),
-    // currentCompany: z.string().optional(),
-    // exCompanies: z.array(z.string()).optional(),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     path: ["passwordConfirmation"],
     error: "Şifreler eşleşmiyor.",
   });
 
-export const mentorSchemaEducationInfo = z.object({
-  schoolName: z.string(),
-  major: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
-  degreeType: z.string(),
+export const mentorSchemaEducationInfo = z
+  .object({
+    schoolName: z.string().min(1, { error: "Okul adı boş bırakılamaz." }),
+    major: z.string().min(1, { error: "Bölüm alanı boş bırakılamaz." }),
+    startDate: z
+      .string()
+      .min(4, { error: "Başlangıç tarihi en az 4 haneli olmalıdır." })
+      .max(4, { error: "Başlangıç tarihi en fazla 4 haneli olmalıdır." }),
+    endDate: z
+      .string()
+      .min(4, { error: "Bitiş tarihi en az 4 haneli olmalıdır." })
+      .max(4, { error: "Bitiş tarihi en fazla 4 haneli olmalıdır." }),
+    degreeType: z.string().min(1, { error: "Derece türü boş bırakılamaz." }),
+  })
+  .refine((data) => Number(data.startDate) <= Number(data.endDate), {
+    message: "Başlangıç tarihi, bitiş tarihinden büyük olamaz.",
+    path: ["startDate"],
+  });
+
+export const mentorSchemaProfile = z.object({
+  category: z
+    .string()
+    .min(1, { error: "Lütfen mentorluk vermek istediğiniz alanı seçiniz." }),
+  skills: z.array(z.string()).min(3, {
+    error: "Lütfen en az 3 yetenek yazınız.",
+  }),
+  biography: z.string().min(50, {
+    error: "Biyografi alanı en az 50 karakter olmalıdır.",
+  }),
+  price: z.number().min(100, {
+    // numbe or string?? im not sure. test this.
+    error: "1 saatlik mentorluk ücreti en az 100 TL olmalıdır.",
+  }),
 });
 
 export type Mentor = z.infer<typeof mentorSchema>;

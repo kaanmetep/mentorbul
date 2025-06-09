@@ -10,9 +10,18 @@ body {
 .btn-main-sm {
   @apply bg-blue-600 text-white font-bold py-2 px-4 rounded-lg  cursor-pointer hover:bg-blue-500 hover:shadow-md transition-all delay-[50ms];
 }
-/* Add these animations to your global.css file */
 
-/* Keep your existing animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes slideUp {
   0% {
     transform: translateY(0);

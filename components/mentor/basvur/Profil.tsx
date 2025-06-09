@@ -9,8 +9,8 @@ const Profil = ({
   const [skillsInput, setSkillsInput] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (skills.length > 10) return;
     if ((e.key === "Enter" || e.key === ",") && skillsInput.trim()) {
+      if (skills.length > 10) return;
       e.preventDefault();
       setSkills([...skills, skillsInput.trim()]);
       setSkillsInput("");
@@ -39,6 +39,7 @@ const Profil = ({
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
+              <option value="">Seçiniz</option>
               <option value="yapay-zeka">Yapay Zeka</option>
               <option value="tyt-ayt">YKS (TYT-AYT)</option>
               <option value="yazilim-muhendisligi">Yazılım Mühendisliği</option>
@@ -82,9 +83,7 @@ const Profil = ({
                 setSkillsInput(skills.length < 10 ? e.target.value : "")
               }
               onKeyDown={handleKeyDown}
-              className={`flex-1 min-w-[120px] p-3 outline-none ${
-                skills.length >= 10 ? "caret-transparent" : "caret-inherit"
-              }`}
+              className={`flex-1 min-w-[120px] p-3 outline-none`}
               placeholder={
                 skills?.length === 0 ? "Yeni bir yetenek ekleyin..." : ""
               }
@@ -98,7 +97,10 @@ const Profil = ({
         </div>
         <div className=" gap-4 col-span-2">
           <p className="text-gray-600 font-bold mb-2 ">Biyografi *</p>
-          <textarea className="w-full p-2  rounded-lg border-2 border-gray-300 min-h-[150px]" />
+          <textarea
+            className="w-full p-2  rounded-lg border-2 border-gray-300 min-h-[150px]"
+            name="biography"
+          />
           <p className="mt-1 text-sm text-gray-500">
             Kendini menteelerine tanıtmak ister misin? Sanki onlarla birebir
             sohbet ediyormuş gibi, birinci tekil şahısla kendinden bahset. Bu
@@ -116,6 +118,7 @@ const Profil = ({
             min={100}
             max={9999}
             placeholder="Lütfen TL olarak 1 saatlik mentorluk ücretinizi giriniz."
+            name="price"
           />
         </div>
         <div className=" gap-4 col-span-2 lg:col-span-1">

@@ -2,11 +2,13 @@ import React, { useRef } from "react";
 import { X } from "lucide-react";
 import useClickOutside from "@/hooks/useClickOutside";
 import { EducationInfo } from "@/constants";
+import FormError from "./FormError";
 const EgitimBilgisiEkleModal = ({
   setShowEgitimBilgisiEkleModal,
   handleEducationInfoChange,
   educationInfo,
   handleAddNewEducationInfo,
+  errors,
 }: {
   setShowEgitimBilgisiEkleModal: (value: boolean) => void;
   handleEducationInfoChange: (
@@ -14,6 +16,7 @@ const EgitimBilgisiEkleModal = ({
   ) => void;
   educationInfo: EducationInfo;
   handleAddNewEducationInfo: () => void;
+  errors: Record<string, string>;
 }) => {
   const modalRef = useRef<HTMLElement>(null);
   useClickOutside(modalRef, () => setShowEgitimBilgisiEkleModal(false));
@@ -40,7 +43,9 @@ const EgitimBilgisiEkleModal = ({
               value={educationInfo.schoolName}
               onChange={handleEducationInfoChange}
               name="schoolName"
+              required
             />
+            {errors.schoolName && <FormError>{errors.schoolName}</FormError>}
           </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">
@@ -53,7 +58,9 @@ const EgitimBilgisiEkleModal = ({
               value={educationInfo.major}
               onChange={handleEducationInfoChange}
               name="major"
+              required
             />
+            {errors.major && <FormError>{errors.major}</FormError>}
           </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">
@@ -69,6 +76,7 @@ const EgitimBilgisiEkleModal = ({
                 name="startDate"
                 min="1900"
                 max="2099"
+                required
               />
               <span className="flex items-center px-2">-</span>
               <input
@@ -80,8 +88,11 @@ const EgitimBilgisiEkleModal = ({
                 name="endDate"
                 min="1900"
                 max="2099"
+                required
               />
             </div>
+            {errors.startDate && <FormError>{errors.startDate}</FormError>}
+            {errors.endDate && <FormError>{errors.endDate}</FormError>}
           </div>
           <div>
             <label className="block text-gray-700 font-medium mb-1">
@@ -98,6 +109,7 @@ const EgitimBilgisiEkleModal = ({
               <option value="yuksek-lisans">Yüksek Lisans</option>
               <option value="doktora">Doktora</option>
             </select>
+            {errors.degreeType && <FormError>{errors.degreeType}</FormError>}
           </div>
           <button
             type="button"

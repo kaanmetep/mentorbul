@@ -5,7 +5,7 @@ import Profil from "@/components/mentor/basvur/Profil";
 import Diger from "@/components/mentor/basvur/Diger";
 import { Info, Check } from "lucide-react";
 import Link from "next/link";
-
+import type { EducationInfo } from "@/constants";
 const steps = [
   {
     id: 1,
@@ -30,11 +30,11 @@ export type MentorFormData = {
   passwordConfirmation: string;
   occupation: string;
   currentCompany: string;
-  exCompanies: string;
-  ornek: string;
+  exCompanies: string[];
+  educationInfos: EducationInfo[];
 };
 const MentorBasvurPage = () => {
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(2);
   const [mentorFormData, setMentorFormData] = useState<MentorFormData>({
     image: null,
     firstName: "",
@@ -44,10 +44,11 @@ const MentorBasvurPage = () => {
     passwordConfirmation: "",
     occupation: "",
     currentCompany: "",
-    exCompanies: "",
-    ornek: "",
+    exCompanies: [],
+    educationInfos: [],
   });
 
+  // To handle the reflect the changes in the form with event
   const handleMentorFormDataChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -61,12 +62,24 @@ const MentorBasvurPage = () => {
     }));
   };
 
+  // To handle the reflect the changes with direct field name and value (for example: for exCompanies array's,educationInfos array's value.)
+  const updateMentorFormField = (
+    fieldName: keyof MentorFormData,
+    value: string | File | null | string[] | EducationInfo[]
+  ) => {
+    setMentorFormData((prev) => ({
+      ...prev,
+      [fieldName]: value,
+    }));
+  };
+
   const handleActiveStep = (step: number) => {
     if (window.scrollY > 650) {
       window.scrollTo({ top: 300, behavior: "smooth" });
     }
     setActiveStep(step);
   };
+  console.log(mentorFormData);
   return (
     <div className="mx-auto max-w-[1400px] px-4 sm:px-8 lg:px-10 xl:px-12 py-10 ">
       <div className="flex flex-col items-center justify-center  w-full">
@@ -127,6 +140,7 @@ const MentorBasvurPage = () => {
             <Hakkinda
               mentorFormData={mentorFormData}
               handleMentorFormDataChange={handleMentorFormDataChange}
+              updateMentorFormField={updateMentorFormField}
               handleActiveStep={handleActiveStep}
             />
           )}
