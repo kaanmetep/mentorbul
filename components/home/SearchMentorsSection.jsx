@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Search } from "lucide-react";
+import { Search, User } from "lucide-react";
 import { sampleMentors } from "@/constants";
 import { useRouter } from "next/navigation";
 import { toSlug } from "@/lib/utils";
@@ -9,12 +9,12 @@ const MentorCard = ({ mentor }) => {
   const router = useRouter();
   return (
     <div className=" py-4  overflow-hidden">
-      <img
-        src={mentor.image}
-        alt={mentor.name}
-        className="w-full cursor-pointer  object-cover rounded-lg hover:opacity-80 transition-all duration-300"
+      <div
+        className="w-full aspect-square cursor-pointer rounded-lg bg-gray-100 flex items-center justify-center hover:opacity-80 transition-all duration-300 border-2 border-gray-200"
         onClick={() => router.push(`/mentor/${toSlug(mentor.name, mentor.id)}`)}
-      />
+      >
+        <User className="w-24 h-24 text-gray-400" />
+      </div>
       <h3 className="text-lg lg:text-xl font-bold mt-2">{mentor.name}</h3>
       <p className="text-sm lg:text-base text-gray-500">{mentor.title}</p>
       <ul className="flex flex-wrap items-center gap-2 mt-4">

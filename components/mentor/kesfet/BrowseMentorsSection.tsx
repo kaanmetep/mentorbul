@@ -1,5 +1,5 @@
 import React from "react";
-import { StarIcon } from "lucide-react";
+import { StarIcon, User } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { toSlug } from "@/lib/utils";
@@ -58,19 +58,20 @@ const BrowseMentorsSection = () => {
 
 const MentorCard = ({ mentor }: { mentor: Mentor }) => {
   const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/mentor/${toSlug(mentor.name, mentor.id)}`);
+  };
+
   return (
-    <div className="w-full flex-[2.8] border border-gray-200 rounded-lg p-8">
-      <div className="flex flex-col sm:flex-row gap-8 overflow-hidden">
-        <img
-          src={mentor.image}
-          alt={mentor.name}
-          width={200}
-          height={200}
-          className="rounded-lg object-cover aspect-square hover:scale-105 transition-all duration-300 cursor-pointer hover:opacity-90"
-          onClick={() =>
-            router.push(`/mentor/${toSlug(mentor.name, mentor.id)}`)
-          }
-        />
+    <div
+      className="w-full flex-[2.8] border border-gray-200 rounded-lg p-8 cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      onClick={handleClick}
+    >
+      <div className="flex flex-col sm:flex-row gap-8">
+        <div className="w-[200px] h-[200px] min-w-[200px] min-h-[200px] flex-shrink-0 rounded-lg bg-gray-100 flex items-center justify-center border-2 border-gray-200">
+          <User className="w-24 h-24 text-gray-400" />
+        </div>
         <div className="flex flex-col gap-2">
           <div>
             <h3 className="text-xl font-bold">{mentor.name}</h3>
@@ -105,9 +106,10 @@ const MentorCard = ({ mentor }: { mentor: Mentor }) => {
             </p>
             <button
               className="btn-main-sm lg:!px-12 !px-6"
-              onClick={() =>
-                router.push(`/mentor/${toSlug(mentor.name, mentor.id)}`)
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                router.push(`/mentor/${toSlug(mentor.name, mentor.id)}`);
+              }}
             >
               Profili Gör
             </button>

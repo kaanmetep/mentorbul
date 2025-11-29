@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, UserCircle } from "lucide-react";
 
 const mentors = [
   {
@@ -70,11 +70,7 @@ const MentorCardsHighlightSection = () => {
                   </p>
                 </div>
                 <div>
-                  <img
-                    src={mentor.img}
-                    alt={mentor.name}
-                    className="w-12 h-12 xl:w-14 xl:h-14 rounded-full"
-                  />
+                  <UserCircle className="w-12 h-12 xl:w-14 xl:h-14 text-gray-400" />
                 </div>
               </div>
 

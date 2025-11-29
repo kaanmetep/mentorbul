@@ -1,6 +1,5 @@
 import React from "react";
-import { CheckCircle } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import { CheckCircle, ArrowRight, UserCircle } from "lucide-react";
 const MentorshipPromoSection = () => {
   return (
     <div className="flex flex-col items-center xl:items-start xl:flex-row gap-24 bg-gray-100 py-16 p-8 sm:p-16 lg:p-28 rounded-lg">
@@ -18,11 +17,7 @@ const MentorshipPromoSection = () => {
               </p>
             </div>
             <div>
-              <img
-                src="https://thispersondoesnotexist.com/"
-                alt="Kaan Peksen"
-                className="w-14 h-14 xl:w-16 xl:h-16 rounded-full"
-              />
+              <UserCircle className="w-14 h-14 xl:w-16 xl:h-16 text-gray-400" />
             </div>
           </div>
 

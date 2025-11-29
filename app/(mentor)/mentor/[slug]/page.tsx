@@ -1,6 +1,6 @@
 import React from "react";
 import { sampleMentors } from "@/constants";
-import { HomeIcon, ChevronRight } from "lucide-react";
+import { HomeIcon, ChevronRight, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { toSlug, formatDate } from "@/lib/utils";
 import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
@@ -50,11 +50,9 @@ const MentorPage = async ({ params }: { params: { slug: string } }) => {
             {/* MENTOR PROFILE */}
             <div className="flex-1">
               <div className="w-48 h-48 absolute top-24 ">
-                <img
-                  src={mentor?.image}
-                  alt={mentor?.name}
-                  className="w-full h-full rounded-full border-3 border-white"
-                />
+                <div className="w-full h-full rounded-full border-3 border-white bg-gray-100 flex items-center justify-center">
+                  <UserCircle className="w-32 h-32 text-gray-400" />
+                </div>
                 <div className="absolute top-5 left-40 w-full h-full flex items-center justify-center  gap-3">
                   <FaLinkedinIn className="w-6 h-6 text-black bg-white rounded-sm p-[2px] cursor-pointer" />
                   <FaXTwitter className="w-6 h-6 text-black bg-white rounded-sm p-[2px] cursor-pointer" />
@@ -144,11 +142,7 @@ const MentorPage = async ({ params }: { params: { slug: string } }) => {
               <div key={review.id}>
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
-                    <img
-                      src="/images/person.svg"
-                      alt="person"
-                      className="w-12 h-12 rounded-full"
-                    />
+                    <UserCircle className="w-12 h-12 text-gray-400" />
                     <div className="flex flex-col gap-1">
                       <p>{review.name}</p>
                       <div className="flex items-center gap-2">

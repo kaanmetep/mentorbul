@@ -1,5 +1,5 @@
 import React from "react";
-import { Star } from "lucide-react";
+import { Star, UserCircle } from "lucide-react";
 
 const Testimonial = ({ name, image, rating, comment, title }) => {
   return (
@@ -15,7 +15,7 @@ const Testimonial = ({ name, image, rating, comment, title }) => {
       </ul>
       <p className="text-lg lg:text-xl font-extrabold leading-9">"{comment}"</p>
       <div className="flex items-center gap-3 ">
-        <img src={image} alt={name} className="w-14 h-14 rounded-full" />
+        <UserCircle className="w-14 h-14 text-gray-400" />
         <div>
           <p className="text-lg lg:text-xl font-bold">{name}</p>
           <p className="text-sm lg:text-base text-gray-500">{title}</p>

@@ -69,3 +69,60 @@ body {
 .animate-slide-left {
   animation: slideLeft 5s linear infinite;
 }
+
+/* Sağa sola sallanma animasyonu */
+@keyframes sway {
+  0%,
+  100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(-1px) rotate(-1deg);
+  }
+  75% {
+    transform: translateX(1px) rotate(1deg);
+  }
+}
+
+.animate-sway {
+  animation: sway 4s ease-in-out infinite;
+}
+
+/* Kalp atışı animasyonu */
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.03);
+  }
+  20% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.05);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 3.5s ease-in-out infinite;
+}
+
+/* Neşeli zıplama animasyonu */
+@keyframes bounce-happy {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-bounce-happy {
+  animation: bounce-happy 3s ease-in-out infinite;
+}

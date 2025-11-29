@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Star, PersonStanding, HeartHandshake, Smile } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toSlug } from "@/lib/utils";
+import { sampleMentors } from "@/constants";
 
 const words = [
   "Python",
@@ -13,53 +16,28 @@ const words = [
   "Kariyer",
 ];
 
-const persons = [
-  {
-    image: "https://thispersondoesnotexist.com/",
-    name: "Kaan Peksen",
-    description: "Founder, Programmer",
-    star: 4.8,
-    talents: ["JavaScript", "TypeScript", "React", "Full Stack Development"],
-  },
-  {
-    image: "https://thispersondoesnotexist.com/",
-    name: "John F.",
-    description: "Senior UX Design",
-    star: 4.8,
-    talents: ["UX", "Figma", "Photoshop", "Best UX Design Principles"],
-  },
-  {
-    image: "https://thispersondoesnotexist.com/",
-    name: "Seth C.",
-    description: "Product Manager",
-    star: 4.8,
-    talents: ["UX", "Figma", "Photoshop", "Best UX Design Principles"],
-  },
-  {
-    image: "https://thispersondoesnotexist.com/",
-    name: "Emma D.",
-    description: "Data Scientist",
-    star: 4.9,
-    talents: ["Python", "Machine Learning", "Data Analysis", "Statistics"],
-  },
-  {
-    image: "https://thispersondoesnotexist.com/",
-    name: "Maria S.",
-    description: "Mobile Developer",
-    star: 4.7,
-    talents: ["Flutter", "React Native", "UI Design", "App Architecture"],
-  },
-];
+// Use first 5 mentors from sampleMentors
+const persons = sampleMentors.slice(0, 5).map((mentor) => ({
+  id: mentor.id,
+  image: mentor.image,
+  name: mentor.name,
+  description: mentor.title,
+  star: mentor.rating,
+  talents: mentor.skills.slice(0, 4),
+}));
 
-const MentorCard = ({ image, name, description, star, talents }) => {
+const MentorCard = ({ id, image, name, description, star, talents }) => {
+  const router = useRouter();
+
   return (
-    <div className="border border-gray-300 w-[370px] md:w-[520px] lg:w-[460px] pb-6 pt-4 pl-4 rounded-lg bg-white shadow-sm cursor-pointer transition-all delay-[50ms]">
+    <div
+      className="border border-gray-300 w-[370px] md:w-[520px] lg:w-[460px] pb-6 pt-4 pl-4 rounded-lg bg-white shadow-sm cursor-pointer transition-all delay-[50ms] hover:shadow-lg"
+      onClick={() => router.push(`/mentor/${toSlug(name, id)}`)}
+    >
       <div className="flex items-center gap-4">
-        <img
-          src={image}
-          alt="Person"
-          className="w-16 h-16 md:w-20 md:h-20 rounded-lg border-2 border-gray-200"
-        />
+        <div className="w-16 h-16 md:w-20 md:h-20 rounded-lg border-2 border-gray-200 bg-gray-100 flex items-center justify-center">
+          <PersonStanding className="w-10 h-10 md:w-12 md:h-12 text-gray-400" />
+        </div>
 
         <div className="flex flex-col gap-1">
           <div className="flex gap-4">
@@ -102,7 +80,7 @@ const MobileSlider = () => {
       <div className="w-[370px] md:w-[520px] mx-auto relative">
         {persons.map((person, index) => (
           <div
-            key={index}
+            key={person.id}
             className={`absolute top-0 left-0 transition-all duration-700 
               ${
                 index === currentIndex
@@ -126,7 +104,7 @@ const MentorSlider = () => {
     <div className="relative h-[700px] w-[800px] hidden lg:block lg:w-full overflow-hidden">
       <div className="animate-slide-up flex flex-col">
         {duplicatedPersons.map((person, index) => (
-          <div key={index} className="my-2">
+          <div key={`${person.id}-${index}`} className="my-2">
             <MentorCard {...person} />
           </div>
         ))}
